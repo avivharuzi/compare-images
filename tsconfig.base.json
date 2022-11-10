@@ -26,7 +26,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
-    "paths": {}
+    "paths": {
+      "@compare-images/shared/util-helpers": [
+        "libs/shared/util-helpers/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
