@@ -1,0 +1,18 @@
+<h3 class="m-0 mb-4">{{ title }}</h3>
+<compare-images-input-file-image
+  [name]="name"
+  (changed)="changed.emit($event)"
+></compare-images-input-file-image>
+<ng-container *ngIf="image">
+  <figure class="figure m-0">
+    <img
+      class="mt-3 figure-img img-fluid"
+      height="200"
+      [alt]="title"
+      [src]="image.base64"
+    />
+    <figcaption class="figure-caption">
+      {{ image.resolution.width }} x{{ image.resolution.height }}
+    </figcaption>
+  </figure>
+</ng-container>
