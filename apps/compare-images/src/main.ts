@@ -1,22 +1,27 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { AppModule } from './app/app.module';
+import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-const bootstrap = (): void => {
-  platformBrowserDynamic()
-    .bootstrapModule(AppModule)
-    // eslint-disable-next-line no-console
-    .catch((err) => console.error(err));
-};
-
-if (document.readyState === 'complete') {
-  bootstrap();
-} else {
-  document.addEventListener('DOMContentLoaded', bootstrap);
-}
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      ServiceWorkerModule.register('ngsw-worker.js', {
+        enabled: environment.production,
+        /*
+         * Register the ServiceWorker as soon as the application is stable
+         * or after 30 seconds (whichever comes first).
+         */
+        registrationStrategy: 'registerWhenStable:30000',
+      })
+    ),
+  ],
+})
+  // eslint-disable-next-line no-console
+  .catch((err) => console.error(err));
