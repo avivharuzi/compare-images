@@ -12,9 +12,11 @@ export interface ImageCanvasPoint {
   rgba: string;
 }
 
+export type ImageCanvasPointRecord = Record<string, ImageCanvasPoint>;
+
 export const getImageCanvasPoints = (
   base64: Base64
-): Promise<Record<string, ImageCanvasPoint>> =>
+): Promise<ImageCanvasPointRecord> =>
   new Promise((resolve) => {
     const image: HTMLImageElement = new Image();
 
@@ -37,7 +39,7 @@ export const getImageCanvasPoints = (
 
       const imageData = canvasContext.getImageData(0, 0, width, height);
       const { data } = imageData;
-      const canvasPoints: Record<string, ImageCanvasPoint> = {};
+      const canvasPoints: ImageCanvasPointRecord = {};
 
       for (let index = 0; index < data.length; index += 4) {
         const indexPosition = index / 4;
