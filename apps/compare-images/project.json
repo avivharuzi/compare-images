@@ -1,0 +1,99 @@
+{
+  "name": "compare-images",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/compare-images/src",
+  "prefix": "compare-images",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/compare-images/browser",
+        "index": "apps/compare-images/src/index.html",
+        "main": "apps/compare-images/src/main.ts",
+        "polyfills": "apps/compare-images/src/polyfills.ts",
+        "tsConfig": "apps/compare-images/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/compare-images/src/favicon.ico",
+          "apps/compare-images/src/assets",
+          "apps/compare-images/src/manifest.webmanifest",
+          "apps/compare-images/src/robots.txt"
+        ],
+        "styles": ["apps/compare-images/src/styles.scss"],
+        "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/compare-images/ngsw-config.json"
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/compare-images/src/environments/environment.ts",
+              "with": "apps/compare-images/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "compare-images:build:production"
+        },
+        "development": {
+          "browserTarget": "compare-images:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "compare-images:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/compare-images/**/*.ts",
+          "apps/compare-images/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/compare-images/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
