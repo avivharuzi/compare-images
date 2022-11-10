@@ -1,4 +1,7 @@
-import { ImageCanvasPointRecord } from './get-image-canvas-points';
+import {
+  ImageCanvasPoint,
+  ImageCanvasPointRecord,
+} from './get-image-canvas-points';
 
 export interface DiffBetweenImageCanvasPointsInputs {
   originalPoints: ImageCanvasPointRecord;
@@ -14,10 +17,20 @@ const defaultOptions: DiffBetweenImageCanvasPointsOptions = {
   inRGB: 0,
 };
 
+export interface DiffBetweenImageCanvasPoints {
+  keys: string[];
+  diffs: DiffBetweenImageCanvasPointsDiff[];
+}
+
+export interface DiffBetweenImageCanvasPointsDiff {
+  originalPoint: ImageCanvasPoint;
+  changedPoint: ImageCanvasPoint;
+}
+
 export const getDiffBetweenImageCanvasPoints = (
   { originalPoints, changedPoints }: DiffBetweenImageCanvasPointsInputs,
   options: Partial<DiffBetweenImageCanvasPointsOptions> = {}
-): string[] => {
+): DiffBetweenImageCanvasPoints => {
   const mergedOptions: DiffBetweenImageCanvasPointsOptions = {
     ...defaultOptions,
     ...options,
@@ -31,7 +44,7 @@ export const getDiffBetweenImageCanvasPoints = (
     inRGB = Math.ceil(255 * (inPercent as number));
   }
 
-  return Object.keys(originalPoints).filter((key) => {
+  const keys = Object.keys(originalPoints).filter((key) => {
     const originalImageCanvasPoint = originalPoints[key];
     const changedImageCanvasPoint = changedPoints[key];
 
@@ -57,4 +70,16 @@ export const getDiffBetweenImageCanvasPoints = (
 
     return rDiff >= inRGB || gDiff >= inRGB || bDiff >= inRGB;
   });
+
+  const diffs: DiffBetweenImageCanvasPointsDiff[] = keys.map((key) => {
+    return {
+      originalPoint: originalPoints[key] as ImageCanvasPoint,
+      changedPoint: changedPoints[key] as ImageCanvasPoint,
+    };
+  });
+
+  return {
+    keys,
+    diffs,
+  };
 };
