@@ -1,0 +1,81 @@
+{
+  "configVersion": 1,
+  "timestamp": 1668099825590,
+  "index": "/compare-images/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/compare-images/favicon.ico",
+        "/compare-images/index.html",
+        "/compare-images/main.650ee1d66aaad786.js",
+        "/compare-images/manifest.webmanifest",
+        "/compare-images/polyfills.82538f9bff6c00ff.js",
+        "/compare-images/runtime.133f7582cc843c3d.js",
+        "/compare-images/styles.ef46db3751d8e999.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/compare-images/assets/icons/icon-128x128.png",
+        "/compare-images/assets/icons/icon-144x144.png",
+        "/compare-images/assets/icons/icon-152x152.png",
+        "/compare-images/assets/icons/icon-192x192.png",
+        "/compare-images/assets/icons/icon-384x384.png",
+        "/compare-images/assets/icons/icon-512x512.png",
+        "/compare-images/assets/icons/icon-72x72.png",
+        "/compare-images/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/compare-images/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/compare-images/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/compare-images/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/compare-images/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/compare-images/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/compare-images/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/compare-images/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/compare-images/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/compare-images/favicon.ico": "4e23d0f9b6ddaf3c9ddef90dbaed2342941297b5",
+    "/compare-images/index.html": "b60f30515df26d788a00b9644427ce4102baf45c",
+    "/compare-images/main.650ee1d66aaad786.js": "65a77ee7f5d5bbb9537628bdbe5a2bdc217ada17",
+    "/compare-images/manifest.webmanifest": "4cb6a8a3526897fb5bfcf1830d3a66c4af4c6247",
+    "/compare-images/polyfills.82538f9bff6c00ff.js": "02af357fe78f24440dceb49c0a7e5b50a5eba609",
+    "/compare-images/runtime.133f7582cc843c3d.js": "ef835d2c40bbf7b2c499c887f78506dffbc0e124",
+    "/compare-images/styles.ef46db3751d8e999.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
