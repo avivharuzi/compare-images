@@ -1,1 +1,41 @@
-<p>app works!</p>
+<compare-images-navbar></compare-images-navbar>
+<div class="container">
+  <compare-images-loader *ngIf="isLoading$ | async"></compare-images-loader>
+
+  <ng-container *ngIf="(view$ | async) === 'select-images'">
+    <div class="row mb-4">
+      <div class="col-md-6 col-12 mb-4 mb-md-0">
+        <compare-images-select-image
+          name="originalImage"
+          title="Original Image"
+          [image]="originalImage$ | async"
+          (changed)="updateOriginalImage($event)"
+        ></compare-images-select-image>
+      </div>
+      <div class="col-md-6 col-12">
+        <compare-images-select-image
+          name="changedImage"
+          title="Changed Image"
+          [image]="changedImage$ | async"
+          (changed)="updateChangedImage($event)"
+        ></compare-images-select-image>
+      </div>
+    </div>
+
+    <div>
+      <button
+        class="btn btn-primary w-100"
+        [disabled]="!((hasLoadedImages$ | async) || false)"
+        (click)="compareImages()"
+      >
+        Compare Images
+      </button>
+    </div>
+  </ng-container>
+
+  <canvas
+    #resultImageCanvasElement
+    class="compare-result"
+    [class.d-none]="(view$ | async) !== 'compare-result'"
+  ></canvas>
+</div>
