@@ -9,7 +9,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/compare-images/browser",
+        "outputPath": "dist/compare-images",
         "index": "apps/compare-images/src/index.html",
         "main": "apps/compare-images/src/main.ts",
         "polyfills": "apps/compare-images/src/polyfills.ts",
