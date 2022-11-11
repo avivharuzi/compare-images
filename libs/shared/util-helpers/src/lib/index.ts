@@ -1,3 +1,5 @@
+export * from './download-canvas-as-image';
+
 export * from './draw-image-and-points-to-canvas';
 
 export * from './from-base64-to-image';

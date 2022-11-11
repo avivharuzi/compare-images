@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,6 +21,7 @@ import {
 
 import {
   DiffBetweenImageCanvasPointsOptions,
+  downloadCanvasAsImage,
   drawImageAndPointsToCanvas,
   getDiffBetweenImageCanvasPoints,
   getImageCanvasPoints,
@@ -34,11 +35,17 @@ import { SelectImageComponent } from './select-image';
 
 export type View = 'compare-result' | 'select-images';
 
+export interface CompareResultStats {
+  totalPixels: number;
+  differentPixels: number;
+}
+
 @Component({
   selector: 'compare-images-root',
   standalone: true,
   imports: [
     AsyncPipe,
+    DecimalPipe,
     NgIf,
     LoaderComponent,
     NavbarComponent,
@@ -63,6 +70,9 @@ export class AppComponent {
   private changedImageBehaviorSubject =
     new BehaviorSubject<InputFileImage | null>(null);
 
+  private compareResultStatsBehaviorSubject =
+    new BehaviorSubject<CompareResultStats | null>(null);
+
   private isLoadingBehaviorSubject = new BehaviorSubject<boolean>(false);
 
   get view$(): Observable<View> {
@@ -75,6 +85,10 @@ export class AppComponent {
 
   get changedImage$(): Observable<InputFileImage | null> {
     return this.changedImageBehaviorSubject.asObservable();
+  }
+
+  get compareResultStats$(): Observable<CompareResultStats | null> {
+    return this.compareResultStatsBehaviorSubject.asObservable();
   }
 
   get isLoading$(): Observable<boolean> {
@@ -147,6 +161,9 @@ export class AppComponent {
             diffOptions
           );
 
+          const totalPixels = Object.values(originalImageCanvasPoints).length;
+          const differentPixels = diffs.length;
+
           if (!images.originalImage) {
             return;
           }
@@ -165,11 +182,30 @@ export class AppComponent {
               points,
             }
           ).then(() => {
+            this.compareResultStatsBehaviorSubject.next({
+              totalPixels,
+              differentPixels,
+            });
+
             this.isLoadingBehaviorSubject.next(false);
             this.viewBehaviorSubject.next('compare-result');
           });
         })
       )
       .subscribe();
+  }
+
+  reset(): void {
+    this.originalImageBehaviorSubject.next(null);
+    this.changedImageBehaviorSubject.next(null);
+    this.compareResultStatsBehaviorSubject.next(null);
+    this.viewBehaviorSubject.next('select-images');
+  }
+
+  download(): void {
+    downloadCanvasAsImage(
+      this.resultImageCanvasElement.nativeElement,
+      'compare-images.jpg'
+    );
   }
 }
