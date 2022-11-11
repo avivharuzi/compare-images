@@ -1,3 +1,4 @@
+import { fromBase64ToImage } from './from-base64-to-image';
 import { Base64 } from './from-file-to-base64';
 
 export interface ImageResolution {
@@ -5,20 +6,13 @@ export interface ImageResolution {
   height: number;
 }
 
-export const fromBase64ToImageResolution = (
+export const fromBase64ToImageResolution = async (
   base64: Base64
-): Promise<ImageResolution> =>
-  new Promise((resolve) => {
-    const image: HTMLImageElement = new Image();
+): Promise<ImageResolution> => {
+  const { width, height } = await fromBase64ToImage(base64);
 
-    image.onload = (): void => {
-      const { width, height } = image;
-
-      return resolve({
-        width,
-        height,
-      });
-    };
-
-    image.src = base64 as string;
-  });
+  return {
+    width,
+    height,
+  };
+};

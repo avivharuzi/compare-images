@@ -1,3 +1,4 @@
+import { fromBase64ToImage } from './from-base64-to-image';
 import { Base64 } from './from-file-to-base64';
 
 export interface DrawImageAndPointsToCanvasPoint {
@@ -20,7 +21,7 @@ const defaultOptions: DrawImageAndPointsToCanvasOptions = {
   fillStyle: 'rgb(0, 128, 0)',
 };
 
-export const drawImageAndPointsToCanvas = (
+export const drawImageAndPointsToCanvas = async (
   canvas: HTMLCanvasElement,
   base64: Base64,
   options: Partial<DrawImageAndPointsToCanvasOptions> = {}
@@ -30,35 +31,26 @@ export const drawImageAndPointsToCanvas = (
     ...options,
   };
 
-  return new Promise((resolve) => {
-    const image: HTMLImageElement = new Image();
+  const image = await fromBase64ToImage(base64);
+  const { width, height } = image;
 
-    image.onload = (): void => {
-      const { width, height } = image;
+  canvas.width = width;
+  canvas.height = height;
 
-      canvas.width = width;
-      canvas.height = height;
+  const canvasContext = canvas.getContext('2d', {
+    willReadFrequently: true,
+  });
 
-      const canvasContext = canvas.getContext('2d', {
-        willReadFrequently: true,
-      });
+  if (!canvasContext) {
+    throw Error('There was a problem to get canvas 2d context');
+  }
 
-      if (!canvasContext) {
-        throw Error('There was a problem to get canvas 2d context');
-      }
+  canvasContext.globalAlpha = imageOpacity;
+  canvasContext.drawImage(image, 0, 0);
+  canvasContext.globalAlpha = 1;
+  canvasContext.fillStyle = fillStyle;
 
-      canvasContext.globalAlpha = imageOpacity;
-      canvasContext.drawImage(image, 0, 0);
-      canvasContext.globalAlpha = 1;
-      canvasContext.fillStyle = fillStyle;
-
-      points.forEach(({ x, y }) => {
-        canvasContext.fillRect(x, y, 1, 1);
-      });
-
-      resolve();
-    };
-
-    image.src = base64 as string;
+  points.forEach(({ x, y }) => {
+    canvasContext.fillRect(x, y, 1, 1);
   });
 };
