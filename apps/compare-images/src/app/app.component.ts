@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,10 +25,10 @@ import {
   getImageCanvasPoints,
 } from '@compare-images/shared/util-helpers';
 
-import {InputFileImage} from './input-file-image';
-import {LoaderComponent} from './loader';
-import {NavbarComponent} from './navbar';
-import {SelectImageComponent} from './select-image';
+import { InputFileImage } from './input-file-image';
+import { LoaderComponent } from './loader';
+import { NavbarComponent } from './navbar';
+import { SelectImageComponent } from './select-image';
 
 export type View = 'compare-result' | 'select-images';
 
@@ -112,7 +112,7 @@ export class AppComponent {
       .pipe(
         first(),
         switchMap((images) => {
-          const {originalImage, changedImage} = images;
+          const { originalImage, changedImage } = images;
 
           if (!originalImage || !changedImage) {
             throw new Error('Images are not loaded yet');
@@ -125,7 +125,7 @@ export class AppComponent {
           ]);
         }),
         tap(([originalImageCanvasPoints, changedImageCanvasPoints, images]) => {
-          const {diffs} = getDiffBetweenImageCanvasPoints(
+          const { diffs } = getDiffBetweenImageCanvasPoints(
             {
               originalPoints: originalImageCanvasPoints,
               changedPoints: changedImageCanvasPoints,
@@ -139,16 +139,20 @@ export class AppComponent {
             return;
           }
 
-          const points = diffs.map(diff => {
+          const points = diffs.map((diff) => {
             return {
               x: diff.originalPoint.x,
-              y: diff.originalPoint.y
-            }
-          })
+              y: diff.originalPoint.y,
+            };
+          });
 
-          drawImageAndPointsToCanvas(this.resultImageCanvasElement.nativeElement, images.originalImage.base64, {
-            points
-          }).then(() => {
+          drawImageAndPointsToCanvas(
+            this.resultImageCanvasElement.nativeElement,
+            images.originalImage.base64,
+            {
+              points,
+            }
+          ).then(() => {
             this.isLoadingBehaviorSubject.next(false);
             this.viewBehaviorSubject.next('compare-result');
           });
