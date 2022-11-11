@@ -1,0 +1,40 @@
+<ng-container [formGroup]="form">
+  <p class="m-0 mb-3"><b>Diff by</b></p>
+  <div class="mb-2">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        id="rgb"
+        name="type"
+        type="radio"
+        value="rgb"
+        formControlName="type"
+      />
+      <label class="form-check-label" for="rgb">RGB</label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        id="percentage"
+        name="type"
+        type="radio"
+        value="percentage"
+        formControlName="type"
+      />
+      <label class="form-check-label" for="percentage">Percentage</label>
+    </div>
+  </div>
+
+  <label class="form-label" for="diffValue"
+    >{{ valueControl.value
+    }}{{ typeControl.value === 'percentage' ? '%' : '' }}</label
+  >
+  <input
+    class="form-range"
+    id="diffValue"
+    type="range"
+    formControlName="value"
+    min="0"
+    [max]="typeControl.value === 'rgb' ? 255 : 100"
+  />
+</ng-container>

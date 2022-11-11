@@ -20,11 +20,13 @@ import {
 } from 'rxjs';
 
 import {
+  DiffBetweenImageCanvasPointsOptions,
   drawImageAndPointsToCanvas,
   getDiffBetweenImageCanvasPoints,
   getImageCanvasPoints,
 } from '@compare-images/shared/util-helpers';
 
+import { DiffFormComponent } from './diff-form';
 import { InputFileImage } from './input-file-image';
 import { LoaderComponent } from './loader';
 import { NavbarComponent } from './navbar';
@@ -41,6 +43,7 @@ export type View = 'compare-result' | 'select-images';
     LoaderComponent,
     NavbarComponent,
     SelectImageComponent,
+    DiffFormComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -49,6 +52,8 @@ export type View = 'compare-result' | 'select-images';
 export class AppComponent {
   @ViewChild('resultImageCanvasElement')
   resultImageCanvasElement!: ElementRef<HTMLCanvasElement>;
+
+  @ViewChild(DiffFormComponent) diffFormComponent!: DiffFormComponent;
 
   private viewBehaviorSubject = new BehaviorSubject<View>('select-images');
 
@@ -125,14 +130,21 @@ export class AppComponent {
           ]);
         }),
         tap(([originalImageCanvasPoints, changedImageCanvasPoints, images]) => {
+          const diffFormValue = this.diffFormComponent.formValue;
+          const diffOptions: Partial<DiffBetweenImageCanvasPointsOptions> = {};
+
+          if (diffFormValue.type === 'rgb') {
+            diffOptions.inRGB = diffFormValue.value;
+          } else {
+            diffOptions.inPercent = diffFormValue.value / 100;
+          }
+
           const { diffs } = getDiffBetweenImageCanvasPoints(
             {
               originalPoints: originalImageCanvasPoints,
               changedPoints: changedImageCanvasPoints,
             },
-            {
-              inPercent: 0,
-            }
+            diffOptions
           );
 
           if (!images.originalImage) {
